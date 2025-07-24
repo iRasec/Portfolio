@@ -14,41 +14,35 @@
 
 html {
     scroll-behavior: smooth;
+    height: 100%;
+    width: 100%;
 }
 
 body {
-    background: url('./imagens/bg-hero2.png') center center/cover no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    position: relative;
     color: var(--text-color);
     line-height: 1.6;
     min-height: 100vh;
-    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
+    z-index: -2;
+    background: url('./imagens/bg-hero2.png') center center/cover no-repeat;
 }
 
-/* Adicione uma media query específica para iOS */
-@supports (-webkit-touch-callout: none) {
-    body {
-        background-attachment: scroll; /* Desativa o fixed no iOS */
-        background-position: center center;
-        min-height: -webkit-fill-available;
-    }
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) {
-    body {
-        background-image: url('./imagens/bg-hero2@2x.png');
-    }
-}
-
-body::before {
+/* Overlay gradiente */
+.bg-container::after {
     content: '';
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -57,5 +51,22 @@ body::before {
         rgba(26, 27, 38, 0.85),
         rgba(26, 27, 38, 0.8)
     );
-    z-index: 0;
+    z-index: -1;
+}
+
+/* Ajustes para dispositivos iOS */
+@supports (-webkit-touch-callout: none) {
+    .bg-container {
+        position: absolute;
+        background-attachment: scroll;
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* Ajustes para dispositivos móveis em geral */
+@media screen and (max-width: 768px) {
+    .bg-container {
+        background-position: center top;
+        background-size: cover;
+    }
 }
